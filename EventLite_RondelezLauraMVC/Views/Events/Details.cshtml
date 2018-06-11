@@ -1,0 +1,24 @@
+﻿@model IEnumerable<EventLite_RondelezLauraMVC.Entities.Show>
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<img src="~/css/images/" + @Model.Name + ".jpg" />
+@Model.Name
+
+@if (Model.Count() == 0)
+{
+<p>No shows (yet) for this event!</p>
+}
+else
+{
+    @foreach (var item in Model)
+    {
+        @Html.DisplayFor(modelItem => item.Title)
+        @Html.DisplayFor(modelItem => item.Description)
+        @Html.DisplayFor(modelItem => item.Type.Name)
+        @Html.DisplayFor(modelItem => item.Performer)
+        <p>@Html.DisplayFor(modelItem => item.Start) - @Html.DisplayFor(modelItem => item.End)</p>
+    }
+}

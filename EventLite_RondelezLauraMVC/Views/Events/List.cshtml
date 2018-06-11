@@ -1,0 +1,34 @@
+﻿@model IEnumerable<EventLite_RondelezLauraMVC.Entities.Event>
+
+@{
+    ViewData["Title"] = "List";
+}
+
+<h2>Events</h2>
+
+@foreach (var item in Model)
+{
+    <img src="~/css/images/" + @item.Name + ".jpg" />
+    @Html.DisplayFor(modelItem => item.Name)
+    @Html.DisplayFor(modelItem => item.Description)
+    <p>Where does it happen?</p>
+    @Html.DisplayFor(modelItem => item.Venue.Description)
+    <p>From</p>
+    @Html.DisplayFor(modelItem => item.Start)
+    <p>To</p>
+    @Html.DisplayFor(modelItem => item.End)
+
+    @if (User.IsInRole(“Member”))
+    {
+        @if (JsonConvert.DeserializeObject<List<Event>>(client.GetStringAsync("api/events", item.Id).Result) == true)
+        {
+            @Html.ActionLink("You already subscribed for €{item.Price}", "", new { /* id=item.PrimaryKey */ })
+        }
+        else
+        {
+            @Html.ActionLink("Buy ticket for only €{item.Price}", "Add", new { /* id=item.PrimaryKey */ })
+        }
+        @Html.ActionLink("View", "Details", item.Id)
+    }
+
+}
